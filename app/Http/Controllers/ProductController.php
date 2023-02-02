@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Model\Product;
+use App\Model\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 
@@ -42,7 +42,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Model\Product  $product
+     * @param  \App\Model\Product  $product
      * @return \Illuminate\Http\Response
      */
     public function show(Product $product)
@@ -53,7 +53,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Model\Product  $product
+     * @param  \App\Model\Product  $product
      * @return \Illuminate\Http\Response
      */
     public function edit(Product $product)
@@ -65,7 +65,7 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateProductRequest  $request
-     * @param  \App\Models\Model\Product  $product
+     * @param  \App\Model\Product  $product
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateProductRequest $request, Product $product)
@@ -76,7 +76,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Model\Product  $product
+     * @param  \App\Model\Product  $product
      * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product)

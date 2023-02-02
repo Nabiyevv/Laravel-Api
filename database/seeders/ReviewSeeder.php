@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Model\Review;
+use App\Model\Review;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
-use App\Models\Model\Product;
+use App\Model\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
