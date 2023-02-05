@@ -1,15 +1,23 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
-    
+
     use HasFactory;
-    public function product(){
+    protected $fillable = [
+        'product_id',
+        'name',
+        'review',
+        'star',
+    ];
+
+    public function product()
+    {
 
         return $this->belongsTo(Product::class);
     }

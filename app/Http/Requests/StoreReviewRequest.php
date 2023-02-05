@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreReviewRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class StoreReviewRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +26,9 @@ class StoreReviewRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+        'name' => ['required','min:3'],
+        'review' => ['required','min:10'],
+        'star'=> ['required','numeric','between:0,5'],
         ];
     }
 }

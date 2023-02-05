@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Review;
+use App\Models\Review;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
 use App\Http\Resources\ReviewResource;
-use App\Model\Product;
+use App\Models\Product;
 
 class ReviewController extends Controller
 {
@@ -18,35 +18,30 @@ class ReviewController extends Controller
     public function index(Product $product)
     {
         return ReviewResource::collection($product->reviews);
-
         //return  Product::find($id)->reviews;
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreReviewRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreReviewRequest $request)
+    public function store(StoreReviewRequest $request,Product $product)
     {
-        //
+        $review = Review::create([
+            'product_id' => $request->product->id,
+            'name' => $request->name,
+            'review' => $request->review,
+            'star' =>$request->star,
+        ]);
+        
+        return new ReviewResource($review);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Model\Review  $review
+     * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
     public function show(Review $review)
@@ -57,7 +52,7 @@ class ReviewController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Model\Review  $review
+     * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
     public function edit(Review $review)
@@ -69,7 +64,7 @@ class ReviewController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateReviewRequest  $request
-     * @param  \App\Model\Review  $review
+     * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateReviewRequest $request, Review $review)
@@ -80,7 +75,7 @@ class ReviewController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Model\Review  $review
+     * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
     public function destroy(Review $review)
