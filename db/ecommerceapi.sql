@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 02, 2023 at 12:53 PM
+-- Generation Time: Feb 06, 2023 at 12:18 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -59,7 +59,130 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (5, '2023_02_02_074735_create_products_table', 1),
-(6, '2023_02_02_090440_create_reviews_table', 1);
+(6, '2023_02_02_090440_create_reviews_table', 1),
+(7, '2016_06_01_000001_create_oauth_auth_codes_table', 2),
+(8, '2016_06_01_000002_create_oauth_access_tokens_table', 2),
+(9, '2016_06_01_000003_create_oauth_refresh_tokens_table', 2),
+(10, '2016_06_01_000004_create_oauth_clients_table', 2),
+(11, '2016_06_01_000005_create_oauth_personal_access_clients_table', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_access_tokens`
+--
+
+CREATE TABLE `oauth_access_tokens` (
+  `id` varchar(100) NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `client_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `scopes` text DEFAULT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `oauth_access_tokens`
+--
+
+INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
+('2924499c56a0e2f64cb54cc83b3154104ffb57c87007c08b83e109bf93bacbd7536ccc1e1a319dc0', 2, 2, NULL, '[]', 0, '2023-02-05 15:44:38', '2023-02-05 15:44:38', '2024-02-05 19:44:38'),
+('90b5b37a837f1da7ed4f88265137942f8c24c3ebf8ef6f8f35cf64c64346dd7a23e39bcca0ed9bbc', 2, 2, NULL, '[]', 0, '2023-02-05 06:06:15', '2023-02-05 06:06:15', '2024-02-05 10:06:15'),
+('a9830109c0194b382dc4f4b0985c9cbfd4099c648cf26d7f0b65df26d87a9f3098a959f50cbc6304', 2, 2, NULL, '[]', 0, '2023-02-05 15:44:41', '2023-02-05 15:44:41', '2024-02-05 19:44:41'),
+('c51cf12c391fe75aa69a6c90ee1ef5eae5d7c474b4e64269acc84f6c06986f7b52408db210b96cb0', 2, 2, NULL, '[]', 0, '2023-02-05 06:05:58', '2023-02-05 06:05:58', '2024-02-05 10:05:58'),
+('db89f5824c3eb277c475c66a289fd19fa97c5f5138c12821dce62cfb17c85f46b0194284395d5efb', 2, 2, NULL, '[]', 0, '2023-02-05 06:06:12', '2023-02-05 06:06:12', '2024-02-05 10:06:12'),
+('ff8b72e471789a4aae75ed409582c549cf5163a239dfcc4485f49c3dd3e85280ff84cf7f7c82f0a1', 2, 2, NULL, '[]', 0, '2023-02-05 06:06:10', '2023-02-05 06:06:10', '2024-02-05 10:06:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_auth_codes`
+--
+
+CREATE TABLE `oauth_auth_codes` (
+  `id` varchar(100) NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `client_id` bigint(20) UNSIGNED NOT NULL,
+  `scopes` text DEFAULT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_clients`
+--
+
+CREATE TABLE `oauth_clients` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `secret` varchar(100) DEFAULT NULL,
+  `provider` varchar(255) DEFAULT NULL,
+  `redirect` text NOT NULL,
+  `personal_access_client` tinyint(1) NOT NULL,
+  `password_client` tinyint(1) NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `oauth_clients`
+--
+
+INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `provider`, `redirect`, `personal_access_client`, `password_client`, `revoked`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'Laravel Personal Access Client', 'Ec6PDUZXFpKIGcS5gew18CFTgvGg4LnB44XNdllf', NULL, 'http://localhost', 1, 0, 0, '2023-02-03 16:04:23', '2023-02-03 16:04:23'),
+(2, NULL, 'Laravel Password Grant Client', 'Pn0mJQhqkJFur7q4K1WwbfIhumktOmmL6zjVUUYG', 'users', 'http://localhost', 0, 1, 0, '2023-02-03 16:04:23', '2023-02-03 16:04:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_personal_access_clients`
+--
+
+CREATE TABLE `oauth_personal_access_clients` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `client_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `oauth_personal_access_clients`
+--
+
+INSERT INTO `oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `updated_at`) VALUES
+(1, 1, '2023-02-03 16:04:23', '2023-02-03 16:04:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_refresh_tokens`
+--
+
+CREATE TABLE `oauth_refresh_tokens` (
+  `id` varchar(100) NOT NULL,
+  `access_token_id` varchar(100) NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `oauth_refresh_tokens`
+--
+
+INSERT INTO `oauth_refresh_tokens` (`id`, `access_token_id`, `revoked`, `expires_at`) VALUES
+('1ed59b26cc7a825c4036a272fa73aeebbda1deb85a699bed1ab6453609a8b3c0d7a8fb0e63717bd0', 'a9830109c0194b382dc4f4b0985c9cbfd4099c648cf26d7f0b65df26d87a9f3098a959f50cbc6304', 0, '2024-02-05 19:44:41'),
+('23df978a65fa1cee872a5647b03e792d45ab7d27885c512b494dcb09857c47182c739faacf5a6877', '90b5b37a837f1da7ed4f88265137942f8c24c3ebf8ef6f8f35cf64c64346dd7a23e39bcca0ed9bbc', 0, '2024-02-05 10:06:15'),
+('4c412ffb765e10783a921272535de5b13570ee1f59bc1b70c1413335a9bee36ca8522e22a32babfd', 'c51cf12c391fe75aa69a6c90ee1ef5eae5d7c474b4e64269acc84f6c06986f7b52408db210b96cb0', 0, '2024-02-05 10:05:58'),
+('76342543a1a1e39d68617aaee2b570ba37534079d33f1883f85f27051724cac6ef5b2c2cdbdaa679', 'ff8b72e471789a4aae75ed409582c549cf5163a239dfcc4485f49c3dd3e85280ff84cf7f7c82f0a1', 0, '2024-02-05 10:06:10'),
+('a6861b0d54addfea977d974b17ddd6d4b8594d67b8682fb25e5dd324d5151782cb781c287dd90af9', '2924499c56a0e2f64cb54cc83b3154104ffb57c87007c08b83e109bf93bacbd7536ccc1e1a319dc0', 0, '2024-02-05 19:44:38'),
+('c9d9a498358710953f770cbc0a3b22dd7c95709dc472c3aa7825cebd4ad1a9a67e79995b25c54240', 'db89f5824c3eb277c475c66a289fd19fa97c5f5138c12821dce62cfb17c85f46b0194284395d5efb', 0, '2024-02-05 10:06:12');
 
 -- --------------------------------------------------------
 
@@ -114,7 +237,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `detail`, `price`, `stock`, `discount`, `created_at`, `updated_at`) VALUES
-(1, 'Cecile Carroll', 'Aspernatur et adipisci facere eveniet. Qui quibusdam dolorem id dolorem laborum commodi dolorum.', 101, 170, 27, '2023-02-02 07:51:14', '2023-02-02 07:51:14'),
+(1, 'Cecile Carroll', 'Aspernatur et adipisci facere eveniet. Qui quibusdam dolorem id dolorem laborum commodi dolorum.', 101, 35, 27, '2023-02-02 07:51:14', '2023-02-02 07:51:14'),
 (2, 'Irving Strosin', 'Beatae sunt iure voluptate voluptas. Recusandae consequatur tempore ab iste ipsam. Placeat error fugit magni quis quam autem. Laboriosam eveniet molestias quia debitis et minima dolorum iusto.', 50, 71, 23, '2023-02-02 07:51:14', '2023-02-02 07:51:14'),
 (3, 'Dr. Laverna Roberts V', 'Vero qui necessitatibus molestias sint modi. Ipsam autem eos fugit illum.', 90, 66, 26, '2023-02-02 07:51:14', '2023-02-02 07:51:14'),
 (4, 'Miss Odie Bode MD', 'Omnis assumenda et voluptatum sed et est animi. Nostrum non sint vel et veniam et. Perspiciatis a ullam maiores asperiores quasi. Quidem ipsa dolorum vel enim dolorum. Ut qui nesciunt aut debitis et.', 134, 137, 12, '2023-02-02 07:51:14', '2023-02-02 07:51:14'),
@@ -163,7 +286,7 @@ INSERT INTO `products` (`id`, `name`, `detail`, `price`, `stock`, `discount`, `c
 (47, 'Cristina Cruickshank', 'Qui sit eveniet dicta harum. Quos et vitae nemo eos qui labore expedita. Reiciendis minima ducimus distinctio est sit. Qui ut non doloremque dolores.', 136, 157, 16, '2023-02-02 07:51:14', '2023-02-02 07:51:14'),
 (48, 'Cristian Schumm', 'Deleniti molestiae voluptates rerum dicta ipsum aliquid et dolores. Enim corporis dolores id architecto et. Deserunt et fugit error aut facere quasi ratione.', 137, 86, 26, '2023-02-02 07:51:14', '2023-02-02 07:51:14'),
 (49, 'Skylar Greenfelder', 'Numquam rem occaecati consectetur ad nam cum quas aperiam. Repellat consequatur voluptatem autem earum amet ullam iusto. Animi quas molestias consequuntur velit iusto quia. Iusto qui laboriosam corporis.', 124, 140, 16, '2023-02-02 07:51:14', '2023-02-02 07:51:14'),
-(50, 'Noemie Smitham II', 'Expedita eos voluptatem voluptatem. Ut explicabo dolor ea alias architecto consectetur rerum. Corrupti blanditiis reiciendis ipsum velit dicta ipsa ipsa. Eum sequi ab in voluptatum error.', 72, 143, 29, '2023-02-02 07:51:14', '2023-02-02 07:51:14');
+(50, 'Lorem Impuls', 'loarewiwpvlwv fwefjiopsc[qw eqeqxeqxxe fvwefwdwc wedwecwd', 36, 26, 55, '2023-02-02 07:51:14', '2023-02-05 14:13:40');
 
 -- --------------------------------------------------------
 
@@ -247,7 +370,6 @@ INSERT INTO `reviews` (`id`, `product_id`, `name`, `review`, `star`, `created_at
 (59, 21, 'Mr. Baylee Johnston IV', 'Autem quae aut voluptas illo aut. Dolorem est nulla error alias enim expedita.', 1, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
 (60, 10, 'Sierra Ferry', 'Ut amet sed magnam iure minima debitis iste. Cupiditate voluptate et quia aliquam eos. Magnam totam dolorem ad aut ab. Non ab quisquam beatae sit aut est error ut.', 5, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
 (61, 13, 'Josiah Anderson DVM', 'Quidem ipsam et est tempore. Quia porro ipsam eveniet illo qui. Eius magni corporis dolor ea. Et sunt quia et voluptas consectetur maxime non vero.', 1, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
-(62, 50, 'Santa Pfeffer', 'Enim omnis ut quasi culpa ducimus. Esse quo laborum non. Vero quasi consequuntur quos molestias est omnis.', 2, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
 (63, 21, 'Meda Nolan III', 'Voluptates a est aut totam. Quis iure et animi nemo. Voluptatem earum tenetur quaerat nemo numquam non assumenda. Neque in deserunt libero quia voluptas ad architecto quos. Maiores quia temporibus in eos dicta dolorem.', 2, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
 (64, 19, 'Dusty Durgan', 'Veniam praesentium cum numquam animi qui qui. Voluptates voluptas dicta reiciendis repudiandae consequuntur dolorum nihil. Dolores maxime fugiat praesentium accusantium repellat reiciendis modi quia.', 4, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
 (65, 27, 'Fabian Kuhic', 'Doloremque provident sed facilis reprehenderit ut quis. Quidem fugit et dignissimos molestiae. Praesentium quia exercitationem tenetur tenetur. Reprehenderit at consequatur exercitationem quas veniam saepe.', 4, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
@@ -393,9 +515,9 @@ INSERT INTO `reviews` (`id`, `product_id`, `name`, `review`, `star`, `created_at
 (205, 3, 'Rosalee Oberbrunner II', 'Cupiditate dolores sed qui impedit. Fugit ut cumque veritatis occaecati est nulla quasi. Eveniet aliquid libero officiis vel iste veritatis et. Nulla consequatur rerum natus aliquid occaecati qui maxime.', 2, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
 (206, 32, 'Gust Zieme MD', 'Enim ipsam consequatur ut veritatis enim. Dolor iusto recusandae officia quis optio ipsum ut. Et rerum nesciunt quasi nobis. Et et error sunt earum qui animi soluta.', 0, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
 (207, 27, 'Rogers Mosciski', 'Odio veritatis asperiores eum excepturi. Aperiam illum ut corporis mollitia. Occaecati explicabo consequatur explicabo rem occaecati dolorem voluptate.', 3, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
-(208, 15, 'Anabelle Will', 'Quisquam illo esse consequatur ut mollitia et laborum. Non nesciunt ab quas velit minima. Id eos dolorem asperiores dolorem sed libero voluptatem.', 3, '2023-02-02 07:51:38', '2023-02-02 07:51:38');
+(208, 15, 'Anabelle Will', 'Quisquam illo esse consequatur ut mollitia et laborum. Non nesciunt ab quas velit minima. Id eos dolorem asperiores dolorem sed libero voluptatem.', 3, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
+(209, 35, 'David Streich', 'Qui minima minus deleniti ex aut. Necessitatibus doloremque qui repellat qui eum repellendus quisquam possimus. In nihil aut modi. Consectetur omnis perferendis ipsa.', 3, '2023-02-02 07:51:38', '2023-02-02 07:51:38');
 INSERT INTO `reviews` (`id`, `product_id`, `name`, `review`, `star`, `created_at`, `updated_at`) VALUES
-(209, 35, 'David Streich', 'Qui minima minus deleniti ex aut. Necessitatibus doloremque qui repellat qui eum repellendus quisquam possimus. In nihil aut modi. Consectetur omnis perferendis ipsa.', 3, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
 (210, 29, 'Dr. Joany Weissnat II', 'Numquam quibusdam ad iure sint repudiandae recusandae reiciendis. Asperiores quia ut est iste veritatis beatae similique saepe. Quae ea accusamus enim earum voluptates.', 5, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
 (211, 46, 'Anais Rice', 'Est in et sed itaque tempore. Atque velit et impedit qui sed aperiam et. Nobis illum distinctio sit voluptate blanditiis ad optio.', 0, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
 (212, 21, 'Terrell Schinner', 'Ea dicta alias sint ut non. Omnis similique laboriosam qui est in.', 1, '2023-02-02 07:51:38', '2023-02-02 07:51:38'),
@@ -604,9 +726,9 @@ INSERT INTO `reviews` (`id`, `product_id`, `name`, `review`, `star`, `created_at
 (415, 22, 'Maximus Herzog', 'Molestias incidunt autem repellat ut. Illo deserunt modi enim autem maxime quidem unde. Rerum quo quaerat quo quo veniam labore.', 0, '2023-02-02 07:51:39', '2023-02-02 07:51:39'),
 (416, 18, 'Jade Bashirian DDS', 'Qui asperiores cum voluptatem eius dolorum. Totam nemo rerum fuga rerum sed sit velit. A unde aut est impedit. Nobis dicta qui iste et ab eveniet.', 3, '2023-02-02 07:51:39', '2023-02-02 07:51:39'),
 (417, 48, 'Aliya Pouros', 'Consequatur sapiente ut harum sit aut. Voluptas expedita culpa voluptates rem vero vitae dolorem. Ad et unde sunt quisquam eligendi vitae.', 2, '2023-02-02 07:51:39', '2023-02-02 07:51:39'),
-(418, 46, 'Kris Kirlin', 'Est veniam reprehenderit quo quod et doloremque voluptate. Doloremque temporibus excepturi dolorum voluptatibus in repellendus. Et natus impedit dolorem perspiciatis. Fugit occaecati voluptatem sunt cupiditate eos.', 2, '2023-02-02 07:51:39', '2023-02-02 07:51:39');
+(418, 46, 'Kris Kirlin', 'Est veniam reprehenderit quo quod et doloremque voluptate. Doloremque temporibus excepturi dolorum voluptatibus in repellendus. Et natus impedit dolorem perspiciatis. Fugit occaecati voluptatem sunt cupiditate eos.', 2, '2023-02-02 07:51:39', '2023-02-02 07:51:39'),
+(419, 4, 'Ramona Buckridge', 'Officia sed dolores vel optio. Id eveniet ad iusto quis. Amet molestias inventore quo a. Animi perspiciatis laboriosam recusandae aut illum sed nostrum. Earum vel nemo et nihil aut odit iusto.', 4, '2023-02-02 07:51:39', '2023-02-02 07:51:39');
 INSERT INTO `reviews` (`id`, `product_id`, `name`, `review`, `star`, `created_at`, `updated_at`) VALUES
-(419, 4, 'Ramona Buckridge', 'Officia sed dolores vel optio. Id eveniet ad iusto quis. Amet molestias inventore quo a. Animi perspiciatis laboriosam recusandae aut illum sed nostrum. Earum vel nemo et nihil aut odit iusto.', 4, '2023-02-02 07:51:39', '2023-02-02 07:51:39'),
 (420, 50, 'Jett Gutmann', 'Sapiente quia est similique dolorum et non ut. Quo voluptas tenetur deserunt quas at laborum. Est officia ea labore atque. Nihil est voluptas magni.', 1, '2023-02-02 07:51:39', '2023-02-02 07:51:39'),
 (421, 3, 'Martina Dickens', 'Adipisci autem sed corrupti earum natus odit. Et sapiente doloremque repudiandae et. Perspiciatis eius qui perspiciatis dolorum cupiditate. Maiores nisi debitis id temporibus.', 3, '2023-02-02 07:51:39', '2023-02-02 07:51:39'),
 (422, 46, 'Dr. Clementine Wyman', 'Velit nobis laudantium nobis repellat. Quod ea ut mollitia sed iure voluptatum. Doloribus pariatur accusantium distinctio magnam ut non accusamus. Sed quia optio praesentium dolor et.', 1, '2023-02-02 07:51:39', '2023-02-02 07:51:39'),
@@ -687,7 +809,11 @@ INSERT INTO `reviews` (`id`, `product_id`, `name`, `review`, `star`, `created_at
 (497, 14, 'Prof. Alverta Price', 'Odio recusandae quod sunt iure sunt. Ad saepe itaque quos quae nostrum. Eum et repellat neque ex ipsum molestias.', 1, '2023-02-02 07:51:39', '2023-02-02 07:51:39'),
 (498, 1, 'Mr. Dereck Glover', 'Ipsa ipsum qui voluptate facilis minima earum. Omnis itaque officiis fuga reiciendis magnam quia.', 1, '2023-02-02 07:51:39', '2023-02-02 07:51:39'),
 (499, 39, 'Donavon Mueller', 'Enim et voluptatibus aspernatur ullam. Odit vel alias est omnis eos maxime voluptatem. Culpa dolor hic amet qui dolorum.', 3, '2023-02-02 07:51:39', '2023-02-02 07:51:39'),
-(500, 1, 'Xander Krajcik', 'Dignissimos quo quod qui aut et dolores odio. Minus sit facilis eius nobis velit consequatur et qui. Aut excepturi sed ipsam aliquid.', 3, '2023-02-02 07:51:39', '2023-02-02 07:51:39');
+(500, 1, 'Xander Krajcik', 'Dignissimos quo quod qui aut et dolores odio. Minus sit facilis eius nobis velit consequatur et qui. Aut excepturi sed ipsam aliquid.', 3, '2023-02-02 07:51:39', '2023-02-02 07:51:39'),
+(501, 50, 'Lorem Maqa', 'Loram Impuls Maqa Nabiyev', 5, '2023-02-05 16:36:19', '2023-02-05 16:36:19'),
+(502, 50, 'Lorem Maqa', 'Loram Impuls Maqa Nabiyev', 5, '2023-02-05 16:37:32', '2023-02-05 16:37:32'),
+(503, 50, 'Lorem Maqa 3', 'Loram Impuls Maqa Nabiyev', 5, '2023-02-05 16:38:32', '2023-02-05 16:38:32'),
+(504, 50, 'Santa Pfeffer', 'Enim omnis ut quasi culpa ducimus. Esse quo laborum non. Vero quasi consequuntur quos molestias est omnis.', 2, '2023-02-06 07:14:40', '2023-02-06 07:14:40');
 
 -- --------------------------------------------------------
 
@@ -707,6 +833,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(2, 'Mahammad', 'maqa.nabiev2003@gmail.com', NULL, '$2y$10$/smtJDEwFsQKxr37Rh.1h.XT01Y.lK6PpeO/tivuYOdf0DF82K4mq', NULL, '2023-02-04 15:56:50', '2023-02-04 15:56:50');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -722,6 +855,40 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `oauth_access_tokens`
+--
+ALTER TABLE `oauth_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_access_tokens_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_auth_codes`
+--
+ALTER TABLE `oauth_auth_codes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_auth_codes_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_clients`
+--
+ALTER TABLE `oauth_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_clients_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `oauth_refresh_tokens`
+--
+ALTER TABLE `oauth_refresh_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`);
 
 --
 -- Indexes for table `password_resets`
@@ -771,7 +938,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `oauth_clients`
+--
+ALTER TABLE `oauth_clients`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -783,19 +962,19 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=501;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=505;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
