@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Review;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
+use App\Http\Resources\ReviewDetailResource;
 use App\Http\Resources\ReviewResource;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
@@ -26,15 +28,14 @@ class ReviewController extends Controller
      * @param  \App\Http\Requests\StoreReviewRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreReviewRequest $request,Product $product)
+    public function store(StoreReviewRequest $request, Product $product)
     {
         $review = Review::create([
             'product_id' => $request->product->id,
             'name' => $request->name,
             'review' => $request->review,
-            'star' =>$request->star,
+            'star' => $request->star,
         ]);
-        
         return new ReviewResource($review);
     }
 
@@ -44,9 +45,13 @@ class ReviewController extends Controller
      * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function show(Review $review)
+    public function show(Request $request, Product $product, Review $review)
     {
-        //
+        if ($product->id == $review->product_id)
+            return new ReviewDetailResource($review);
+        return response()->json([
+            'message' => 'Record not found.'
+        ], 404);
     }
 
     /**
@@ -67,9 +72,14 @@ class ReviewController extends Controller
      * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateReviewRequest $request, Review $review)
+    public function update(UpdateReviewRequest $request,Product $product,Review $review)
     {
-        //
+        $data = Review::findOrFail($review->id);
+        $data->name = $request->name;
+        $data->review = $request->review;
+        $data->star = $request->star;
+        $data->save;
+        return new ReviewDetailResource($data);
     }
 
     /**
@@ -78,8 +88,9 @@ class ReviewController extends Controller
      * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy(Product $product,Review $review)
     {
-        //
+        $review = Review::findOrFail($review->id)->delete();
+        return $review;
     }
 }
